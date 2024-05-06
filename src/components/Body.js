@@ -1,16 +1,19 @@
-import ResturantCard from "./ResturantCard";
+import ResturantCard, { ResturantCardLessRating } from "./ResturantCard";
 import { useContext, useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import UserContext from "../utils/userContext";
+
 const Body = () => {
   //  Whenever State variable update, react triggers a reconciliation cycle(rerender the component)
   const [listofResturant, setlistofResturant] = useState([]);
 
   const [filteredRes, setFilteredRes] = useState([]);
   const [searchText, setsearchText] = useState("");
-  const{loggedInUser,setuserName}=useContext(UserContext)
+  const { loggedInUser, setuserName } = useContext(UserContext);
+  const ResturantCardHeigherOrderComponent =
+    ResturantCardLessRating(ResturantCard);
   useEffect(() => {
     fetchData();
   }, []);
@@ -18,9 +21,9 @@ const Body = () => {
     const data = await fetch(
       "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.5355161&lng=77.3910265&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
     );
+  
     const json = await data.json();
-
-    console.log(json);
+    console.log(json,'datata')
     setlistofResturant(
       json.data.cards[4].card.card.gridElements.infoWithStyle.restaurants
     );
@@ -32,7 +35,6 @@ const Body = () => {
   if (!isoffline) {
     return <h1>Please check you internet connection</h1>;
   }
- 
   return listofResturant.length === 0 ? (
     //  conditional Rendering
     <Shimmer />
@@ -76,16 +78,25 @@ const Body = () => {
         </div>
         <div className="search p-4 m-4">
           <label>UserName: </label>
-          <input placeholder="enter your name" className="border border-solid border-black" onChange={(e)=>setuserName(e.target.value)} value={loggedInUser}/>
+          <input
+            placeholder="enter your name"
+            className="border border-solid border-black"
+            onChange={(e) => setuserName(e.target.value)}
+            value={loggedInUser}
+          />
         </div>
-        
       </div>
       <div className="flex flex-wrap">
-        {filteredRes.map((Resturant, index) => (
+        {filteredRes.map((Resturant, index) => {console.log(Resturant.info,"res") ;return (
           <Link to={"/resturants/" + Resturant.info.id} key={index}>
-            <ResturantCard key={Resturant.info.id} resobj={Resturant} />
+            {/* if resturant card is rating less than 4 then we create heigher order component for it  */}
+            {Resturant.info?.avgRating < 4 ? (
+              <ResturantCardHeigherOrderComponent resobj={Resturant.info} />
+            ) : (
+              <ResturantCard resobj={Resturant.info} />
+            )}
           </Link>
-        ))}
+        )})}
       </div>
     </div>
   );

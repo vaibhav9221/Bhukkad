@@ -26,12 +26,12 @@ const App = () => {
 
   return (
     <Provider store={appStore}>
-      <UserContext.Provider value={{ loggedInUser: userName, setuserName }}>
+      {/* <UserContext.Provider value={{ loggedInUser: userName, setuserName }}> */}
         <div className="App">
           <Header />
           <Outlet />
         </div>
-      </UserContext.Provider>
+      {/* </UserContext.Provider> */}
     </Provider>
   );
 };

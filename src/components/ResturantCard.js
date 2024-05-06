@@ -7,14 +7,26 @@ const ResturantCard = (props) => {
       className="rounded-lg"
         alt="yess"
         width="100%"
-        src={CDN_URL + resobj.info.cloudinaryImageId}
+        src={CDN_URL + resobj.cloudinaryImageId}
       />
-      <h3 className="font-bold py-4 text-lg">{resobj.info.name}</h3>
-      <h4> {resobj.info.cuisines.join(", ")}</h4>
-      <h4>{resobj.info.avgRating}</h4>
-      <h4>{resobj.info.costForTwo}</h4>
-      <h4>{resobj.info.sla.deliveryTime} mins</h4>
+      <h3 className="font-bold py-4 text-lg">{resobj.name}</h3>
+      <h4> {resobj.cuisines.join(", ")}</h4>
+      <h4>{resobj.avgRating}</h4>
+      <h4>{resobj.costForTwo}</h4>
+      <h4>{resobj.sla.deliveryTime} mins</h4>
     </div>
   );
 };
+//  Heigher order component 
+//  input Resturant Card ==ResturantCardLessRating
+export const  ResturantCardLessRating=(ResturantCard)=>{
+  return (props)=>{
+    return (
+      <div>
+        <label className="absolute bg-black text-white m-2 p-2 rounded-lg">Less Rating</label>
+        <ResturantCard {...props}/>
+      </div>
+    )
+  }
+}
 export default ResturantCard;

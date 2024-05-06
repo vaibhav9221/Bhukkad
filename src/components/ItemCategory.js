@@ -9,8 +9,7 @@ const ItemCategory = ({ items }) => {
   const handleClick=(item)=>{
     // dispatching the action
     dispatch(addItem(item))
-  }
-  console.log(items,'ittttttttt')
+  } 
 
   return (
     <div>
